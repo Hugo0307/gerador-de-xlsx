@@ -13,8 +13,6 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class GeradorXsl {
-	
-	private static final String fileName = "C:/Users/Hugo/Documents/Contagem EQN amba.xlsx";
 
 	public static void escreverXsl(String nomeRamo, String dataHora, Set<String> fontes) {
 		
@@ -59,7 +57,7 @@ public class GeradorXsl {
 			}
 			
 			/* apontando para o arquivo que quero gravar os dados */
-			FileOutputStream outputStream = new FileOutputStream(fileName);
+			FileOutputStream outputStream = new FileOutputStream(pathFileString);
 			
 			/* escrevendo os dados no arquivo */
 			wbWorkbook.write(outputStream);
