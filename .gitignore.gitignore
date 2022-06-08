@@ -1,0 +1,11 @@
+build/
+/build/
+
+*.war
+*.ear
+*.class
+
+tmp/**
+tmp/**/*
+*.tmp
+*.bak
