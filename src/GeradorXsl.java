@@ -3,7 +3,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Set;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
@@ -14,7 +14,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class GeradorXsl {
 
-	public static void escreverXsl(String nomeRamo, String dataHora, Set<String> fontes) {
+	public static void escreverXsl(String nomeRamo, String dataHora, ArrayList<String> fontes) {
 		
 		try {
 			/* abrindo o arquivo */
@@ -28,8 +28,10 @@ public class GeradorXsl {
 			/* acessando a primeira planilha do arquivo */
 			XSSFSheet testeSheet = wbWorkbook.getSheetAt(0);
 						
-			/* pegando o número da última linha da planilha */
+			/* obtendo o número da última linha da planilha */
 			int ultimaLinha = testeSheet.getLastRowNum();
+			
+			int proximaLinha = ultimaLinha + 1;
 			
 			/* contador para criação das células */
 			int cont = 0;
@@ -37,8 +39,8 @@ public class GeradorXsl {
 			Row newRow = null;
 			for(int i = 0; i < fontes.size(); i++ ) {
 				
-				/* criando uma nova linha a partir da última linha da planilha */
-				newRow = testeSheet.createRow(ultimaLinha++);
+				/* criando uma nova linha após a última linha da planilha */
+				newRow = testeSheet.createRow(proximaLinha);
 				
 				/* criará 03 células para cada nova linha */
 				Cell newCell = null;
@@ -54,6 +56,7 @@ public class GeradorXsl {
 						newCell.setCellValue(fontes.toArray()[cont].toString());
 				}
 				cont++;
+				proximaLinha++;
 			}
 			
 			/* apontando para o arquivo que quero gravar os dados */
@@ -65,9 +68,6 @@ public class GeradorXsl {
 			outputStream.close();
 			wbWorkbook.close();
 			
-			JOptionPane.showMessageDialog(null, "Arquivo alterado com sucesso!");
-			System.out.println("Arquivo alterado com sucesso!");
-			
 		} catch (FileNotFoundException e) {
 			JOptionPane.showMessageDialog(null, e + " - " + e.getMessage());
 			e.printStackTrace();
@@ -75,7 +75,9 @@ public class GeradorXsl {
 			JOptionPane.showMessageDialog(null, e + " - " + e.getMessage());
 			e.printStackTrace();
 		}
-
+		
+		JOptionPane.showMessageDialog(null, "Arquivo alterado com sucesso!");
+		System.out.println("Arquivo alterado com sucesso!");
 	}
 
 }

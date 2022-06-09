@@ -4,8 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
@@ -15,11 +14,13 @@ public class LeitorArquivoHtml {
 		
 		String nomeRamo = "";
 		String dataHora = "";
+		String fonteLinha = "";
 		boolean linhaAnteriorIsTagA = false;
-		Set<String> fontes = new HashSet<String>();
+		ArrayList<String> fontes = new ArrayList<String>();
 		
 		try {
 			String pathFileHtml = JOptionPane.showInputDialog("Informe o path do arquivo HTML. \nExemplo: C:/Users/Hugo/Documents/VCMUpdateReport2022-06-03T17-57-54Z.html");
+			
 			BufferedReader bReader = 
 					new BufferedReader(new FileReader(pathFileHtml));
 			
@@ -28,18 +29,24 @@ public class LeitorArquivoHtml {
 				String linha = bReader.readLine();
 				
 				/* obtendo a linha que contém o nome do ramo */
-				if (linha.contains(" TCAP/")) nomeRamo = linha;
+				if (linha.contains(" TCAP/")) 
+					nomeRamo = linha;
 				
 				/* obtendo a linha que contém a data e hora */
-				if (linha.contains(" BRT")) dataHora = linha;
+				if (linha.contains(" BRT")) 
+					dataHora = linha;
 				
 				/* verifica se alinha anterior foi a tag a */
 				if (linhaAnteriorIsTagA) {
 					
 					/* despreza as linhas que não é nome de fonte */
-					if (!linha.contains("Rebase") && !linha.contains("/TCAP"))
-						fontes.add(linha.trim());
-					
+					if (!linha.contains("Rebase") && !linha.contains("/TCAP")) {
+						/* só adiciona à lista se o nome do fonte adicionado anteriormente não for igual */ 
+						if (!linha.equals(fonteLinha)) {
+							fontes.add(linha.trim());
+						}
+						fonteLinha = linha;
+					}
 					linhaAnteriorIsTagA = false;
 				}
 				
@@ -48,6 +55,7 @@ public class LeitorArquivoHtml {
 					linhaAnteriorIsTagA = true;
 				
 			}
+			/* INICIO - Somente para exibição no console do que está sendo escrito no arquivo excel */
 			nomeRamo = nomeRamo.substring(22);
 			System.out.println("Nome do ramo: " + nomeRamo);
 			
@@ -59,6 +67,7 @@ public class LeitorArquivoHtml {
 			/* percorrendo lista de fontes e imprimindo cada um sem espaços antes nem depois*/
 			for (String fonte : fontes)
 				System.out.println(fonte.trim());
+			/* FIM - Somente para exibição no console do que está sendo escrito no arquivo excel */
 			
 			bReader.close();
 			
