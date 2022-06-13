@@ -1,3 +1,4 @@
+package leitor;
 
 
 import java.io.BufferedReader;
@@ -7,6 +8,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
+
+import gerador.GeradorXsl;
 
 public class LeitorArquivoHtml {
 		
@@ -20,7 +23,7 @@ public class LeitorArquivoHtml {
 		
 			try {
 				BufferedReader bReader = 
-						new BufferedReader(new FileReader(getArquivo()));
+						new BufferedReader(new FileReader(obterCaminhoArquivo()));
 				
 				while (bReader.ready()) {
 					/*lendo e obtendo linha por linha */
@@ -65,10 +68,11 @@ public class LeitorArquivoHtml {
 				e.printStackTrace();
 			}
 			
+			getExibirConsole(nomeRamo, dataHora, fontes);
 			GeradorXsl.escreverXsl(nomeRamo, dataHora, fontes);
 		}
 		
-		public String getArquivo() {
+		private String obterCaminhoArquivo() {
 			
 			boolean continua = true;
 			String pathFileHtml = "";
@@ -91,6 +95,7 @@ public class LeitorArquivoHtml {
 					continue;
 				} else {
 					continua = false;
+					continue;
 				}
 			
 			}
