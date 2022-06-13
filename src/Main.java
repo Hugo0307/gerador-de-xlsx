@@ -11,7 +11,7 @@ public class Main {
 		try {
 			lerArquivoHtml.getLeitor();
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e + " - " + e.getMessage());
+			JOptionPane.showMessageDialog(null, e + " - " + e.getCause());
 			e.printStackTrace();
 		}
 

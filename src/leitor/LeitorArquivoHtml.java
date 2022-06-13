@@ -14,13 +14,13 @@ import gerador.GeradorXsl;
 
 public class LeitorArquivoHtml {
 		
-		private String nomeRamo;
-		private String dataHora;
-		private String fonteLinha;
-		private boolean linhaAnteriorIsTagA;
-		private ArrayList<String> fontes = new ArrayList<String>();
-		
 		public void getLeitor() throws Exception{
+			
+			String nomeRamo = "";
+			String dataHora = "";
+			String fonteLinha = "";
+			boolean linhaAnteriorIsTagA = false;
+			ArrayList<String> fontes = new ArrayList<String>();
 		
 			try {
 				BufferedReader bReader = 
