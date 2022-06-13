@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import exceptions.LeitorExceptions;
 import gerador.GeradorXsl;
 
 public class LeitorArquivoHtml {
@@ -19,7 +20,7 @@ public class LeitorArquivoHtml {
 		private boolean linhaAnteriorIsTagA;
 		private ArrayList<String> fontes = new ArrayList<String>();
 		
-		public void getLeitor() {
+		public void getLeitor() throws Exception{
 		
 			try {
 				BufferedReader bReader = 
@@ -57,19 +58,22 @@ public class LeitorArquivoHtml {
 				}
 				bReader.close();
 				
+				getExibirConsole(nomeRamo, dataHora, fontes);
+				GeradorXsl.escreverXsl(nomeRamo, dataHora, fontes);
+				
 			} catch (FileNotFoundException e) {
-				JOptionPane.showMessageDialog(null, e + " - " + e.getMessage());
+				JOptionPane.showMessageDialog(null, e.getMessage() + " - " + e.getCause());
 				e.printStackTrace();
 			} catch (IOException e) {
-				JOptionPane.showMessageDialog(null, e + " - " + e.getMessage());
+				JOptionPane.showMessageDialog(null, e.getMessage() + " - " + e.getCause());
+				e.printStackTrace();
+			} catch (NullPointerException e) {
 				e.printStackTrace();
 			} catch (Exception e) {
-				JOptionPane.showMessageDialog(null, e + " - " + e.getMessage());
+				JOptionPane.showMessageDialog(null, e.getMessage() + " - " + e.getCause());
 				e.printStackTrace();
 			}
 			
-			getExibirConsole(nomeRamo, dataHora, fontes);
-			GeradorXsl.escreverXsl(nomeRamo, dataHora, fontes);
 		}
 		
 		private String obterCaminhoArquivo() {
@@ -97,9 +101,7 @@ public class LeitorArquivoHtml {
 					continua = false;
 					continue;
 				}
-			
 			}
-			
 			return pathFileHtml;
 		}
 		
@@ -109,15 +111,13 @@ public class LeitorArquivoHtml {
 				nomeRamo = nomeRamo.substring(22);
 				System.out.println("Nome do ramo: " + nomeRamo);
 			} else {
-				throw new NullPointerException(
-						"Nome do ramo não pode ser nulo!");
+				LeitorExceptions.nullException("Nome do ramo não pode ser nulo!");
 			}
 			if(dataEHora != null) {
 				dataEHora = dataEHora.substring(5, 26);
 				System.out.println("Data/Hora: " + dataEHora);
 			} else {
-				throw new NullPointerException(
-						"Data e hora não podem ser nulos!");
+				LeitorExceptions.nullException("Data e hora não podem ser nulos!");
 			}
 			if(!fontes.isEmpty()) {
 				System.out.println("FONTES:");
@@ -128,8 +128,7 @@ public class LeitorArquivoHtml {
 						System.out.println(fonte.trim());
 				}
 			} else {
-				throw new IllegalArgumentException(
-						"A lista de arquivos fonte está vazia!");
+				LeitorExceptions.illegalArgument("A lista de arquivos fonte está vazia!");
 			}
 		}
 

@@ -1,3 +1,5 @@
+import javax.swing.JOptionPane;
+
 import leitor.LeitorArquivoHtml;
 
 public class Main {
@@ -6,7 +8,12 @@ public class Main {
 
 		LeitorArquivoHtml lerArquivoHtml = new LeitorArquivoHtml();
 		
-		lerArquivoHtml.getLeitor();
+		try {
+			lerArquivoHtml.getLeitor();
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e + " - " + e.getMessage());
+			e.printStackTrace();
+		}
 
 	}
 
